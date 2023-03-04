@@ -1,0 +1,281 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+  
+<script>
+$(function() {
+function GetQueryString(name) { 
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); 
+    var r = window.location.search.substr(1).match(reg); 
+    // alert(r);
+    if (r!=null) return unescape(r[0]); return null; 
+ }  
+$('#jstree').jstree({
+'core' : {
+    'check_callback': true,
+    'data' : function (obj, callback){
+        $.ajax({
+            type : "post",
+            url : "/get/children/",//getAreaBuild=getTreeArea
+            dataType : "json", 
+            // dataType: "html",
+            data : GetQueryString("file"),//window.location.href,
+            success : function(data) {
+                console.log("data:");
+                console.log(data);
+                 console.info(data);
+                if(data) {
+                    callback.call(this, data);
+                }else{
+                  $("#jstree").html("暂无数据！");
+                }
+            }
+     });
+    }
+},
+"plugins" : [ "checkbox", "contextmenu", "dnd", "massload", "search", "sort", "state", "types", "unique", "wholerow", "changed", "conditionalselect" ]
+}).on('select_node.jstree', function(event, data) {
+console.log(data.node);
+}).on('loaded.jstree', function(event, data) {
+console.log(data.node);
+}).on('select_node.jstree', function(event, data) {
+console.log(event);
+console.log(data);
+});
+
+
+
+// $('#jstree1').jstree({
+// "core":{
+// "data":[{"id":"0","parent":"#","state":{"disabled":false,"opened":true,"selected":false},"text":"树形结构"},{"id":"69","parent":"0","text":"工程"},{"id":"5","parent":"0","text":"行政"},{"id":"71","parent":"0","text":"迷"},{"id":"1","parent":"0","text":"技术"}],
+// "themes" : {
+// "variant" : "large",//加大
+// "ellipsis" : true //文字多时省略
+// },
+// "check_callback" : true
+// },
+// "plugins" : [ "checkbox", "contextmenu", "dnd", "massload", "search", "sort", "state", "types", "unique", "wholerow", "changed", "conditionalselect" ]
+// }).on('select_node.jstree', function(event, data) {
+// console.log(data.node);
+// }).on('changed.jstree', function(event,data) {
+// console.log("-----------changed.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('copy_node.jstree',function(event,data) {
+// console.log("-----------copy_node.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('copy.jstree',function(event,data) {
+// console.log("-----------copy.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('paste.jstree',function(event,data) {
+// console.log("-----------paste.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('delete_node.jstree',function(event,data) {
+// console.log("-----------delete_node.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('model.jstree',function(event,data) {
+// console.log("-----------model.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('init.jstree',function(event,data) {
+// console.log("-----------init.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('changed.jstree',function(event,data) {
+// console.log("-----------changed.jstree");
+// console.log("action:" + data.action);
+// console.log(data.node);
+// }).on('ready.jstree',function(event,data) {
+// console.log("-----------ready.jstree");
+// console.log("action:" + data.action);
+// console.log("data:" + data);
+// console.log(data.node);
+// });
+
+/*
+init.jstree Event 
+loading.jstree Event 
+destroy.jstree Event 
+loaded.jstree Event 
+ready.jstree Event 
+load_node.jstree Event 
+load_all.jstree Event 
+model.jstree Event 
+redraw.jstree Event 
+before_open.jstree Event 
+open_node.jstree Event 
+after_open.jstree Event 
+close_node.jstree Event 
+after_close.jstree Event 
+open_all.jstree Event 
+close_all.jstree Event 
+enable_node.jstree Event 
+disable_node.jstree Event 
+hide_node.jstree Event 
+show_node.jstree Event 
+hide_all.jstree Event 
+show_all.jstree Event 
+activate_node.jstree Event 
+hover_node.jstree Event 
+dehover_node.jstree Event 
+select_node.jstree Event 
+changed.jstree Event 
+deselect_node.jstree Event 
+select_all.jstree Event 
+deselect_all.jstree Event 
+set_state.jstree Event 
+refresh.jstree Event 
+refresh_node.jstree Event 
+set_id.jstree Event 
+set_text.jstree Event 
+create_node.jstree Event 
+rename_node.jstree Event 
+delete_node.jstree Event 
+move_node.jstree Event 
+copy_node.jstree Event 
+cut.jstree Event 
+copy.jstree Event 
+paste.jstree Event 
+clear_buffer.jstree Event 
+set_theme.jstree Event 
+show_stripes.jstree Event 
+hide_stripes.jstree Event 
+show_dots.jstree Event 
+hide_dots.jstree Event 
+show_icons.jstree Event 
+hide_icons.jstree Event 
+show_ellipsis.jstree Event 
+hide_ellipsis.jstree Event 
+changed.jstree Event  changed plugin
+disable_checkbox.jstree Event  checkbox plugin
+enable_checkbox.jstree Event  checkbox plugin
+check_node.jstree Event  checkbox plugin
+uncheck_node.jstree Event  checkbox plugin
+check_all.jstree Event  checkbox plugin
+uncheck_all.jstree Event  checkbox plugin
+show_contextmenu.jstree Event  contextmenu plugin
+search.jstree Event  search plugin
+clear_search.jstree Event  search plugin
+state_ready.jstree Event  state plugin
+*/
+});
+
+
+// function create(){
+// var ref = $('#jstree1').jstree(true);
+// var currNode = _getCurrNode();
+// currNode = ref.create_node(currNode, {"type":"file"});
+// if(currNode) {
+// ref.edit(currNode);
+// }
+// }
+
+// function rename(){
+// var ref = $('#jstree1').jstree(true);
+// var currNode = _getCurrNode();
+// ref.rename_node(currNode,"rename node222");
+// }
+
+// function del(){
+// var ref = $('#jstree1').jstree(true);
+// var currNode = _getCurrNode();
+// ref.delete_node(currNode);
+// }
+
+// function moveup(){
+// var ref = $('#jstree1').jstree(true);
+// var currNode = _getCurrNode();
+// var prevNode = ref.get_prev_dom(currNode,true);
+// ref.move_node(currNode,prevNode,'before');
+// }
+
+// function copy(){
+// var ref = $('#jstree1').jstree(true);
+// var currNode = _getCurrNode();
+// var prevNode = ref.get_prev_dom(currNode,true);
+// var copyNode=ref.copy(currNode);
+// currNode = ref.create_node(prevNode, {"type":"dir"});
+// }
+
+function actionOnEnter(evt){
+        evt=evt?evt:event;
+        var charCode=(evt.charCode)?evt.charCode:((evt.which)?evt.which:evt.keyCode);
+
+        if(charCode==13 || charCode==3){
+             doBusiness();
+        }
+    }
+
+function doBusiness(){
+    var ref = $('#jstree').jstree(true);
+    ref.search( $("#search").val())
+}
+
+// function movedown(){
+// var ref = $('#jstree1').jstree(true);
+// var currNode = _getCurrNode();
+// var nextNode = ref.get_next_dom(currNode,true);//返回兄弟节点的下一个节点
+// ref.move_node(currNode,nextNode,'after');
+// }
+
+/**
+*    获取当前所选中的结点
+*/
+// function _getCurrNode(){
+// var ref = $('#jstree1').jstree(true),
+// sel = ref.get_selected();
+// console.log(sel);
+// if(!sel.length) { 
+// console.log("----");
+// return false; 
+// }
+// sel = sel[0];
+// return sel;
+// }
+
+function saveTree(){
+    var ref = $('#jstree').jstree(true);//获得整个树
+    console.log(ref)
+    console.log(ref._model.data)
+    $.ajax({
+            type : "post",
+            url : "/save/children/",//getAreaBuild=getTreeArea
+            dataType : "json", 
+            data : JSON.stringify(ref._model.data),
+            contentType : "application/json",
+            success : function(data) {
+                console.log("data:");
+                console.log(data);
+                 console.info(data);
+                if(data) {
+                    $("#jstree").jstree(true).settings.core.data = data;
+                    $("#jstree").jstree(true).refresh();
+                    // $("#jstree").html(JSON.stringify(data));
+                    // callback.call(this,data );
+                }else{
+                  $("#jstree").html("暂无数据！");
+                }
+            }
+     });
+}
+</script>
+</head>
+<body>
+<!-- <input type="button" value="create node" onclick="create();">
+<input type="button" value="rename node" onclick="rename();">
+<input type="button" value="del node" onclick="del();">
+<input type="button" value="上移" onclick="moveup();">
+<input type="button" value="下移" onclick="movedown();">
+<input type="button" value="复制" onclick="copy();"> -->
+<input type="button" value="保存" onclick="saveTree();">
+<input id="search" type="text" value="搜索" onkeypress="actionOnEnter(event);">
+<!-- <div id="jstree1" style="width:200px;background:#fff322"></div> -->
+<div id="jstree" style="width:400px;background:#ffffff"></div>
+</body>
+</html>
